@@ -1,0 +1,105 @@
+"use client";
+
+import { useState } from "react";
+
+export default function ApplyPage() {
+    const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [form, setForm] = useState({
+        name: "", dob: "", guardian_name: "", guardian_contact: "", address: "", notes: "",
+    });
+
+    function update(field: string, value: string) {
+        setForm((f) => ({ ...f, [field]: value }));
+    }
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setError("");
+        if (!form.name.trim()) { setError("Full name is required."); return; }
+        setLoading(true);
+        const res = await fetch("/api/apply", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+        });
+        setLoading(false);
+        if (!res.ok) {
+            const data = await res.json();
+            setError(data.error || "Something went wrong. Please try again.");
+            return;
+        }
+        setSubmitted(true);
+    }
+
+    if (submitted) {
+        return (
+            <div className="min-h-screen flex items-center justify-center px-4">
+                <div className="w-full max-w-sm text-center">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-forest text-cream text-3xl">✓</div>
+                    <h1 className="font-display text-2xl text-forest-dark">Application submitted!</h1>
+                   
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen px-4 py-10">
+            <div className="mx-auto max-w-lg">
+                <div className="mb-8 text-center">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-forest text-cream text-xl">⛺</div>
+                    <h1 className="font-display text-3xl text-forest-dark">يلا نبدا الصيف </h1>
+                    
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-line bg-white/60 p-6 shadow-sm">
+                    {error && <div className="rounded-lg bg-ember/10 border border-ember/30 px-3 py-2 text-sm text-ember">{error}</div>}
+
+                    <Field label="اسمك" required>
+                        <input required value={form.name} onChange={(e) => update("name", e.target.value)} className="input" placeholder="اسمك" />
+                    </Field>
+                    <Field label="سنه كام ">
+                        <input
+                            type="text"
+                            value={form.dob}
+                            onChange={(e) => update("dob", e.target.value)}
+                            className="input"
+                            placeholder="اولي "
+                        />
+                    </Field>
+                    <Field label="اسم صاحبك ">
+                        <input value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
+                    </Field>
+                    <Field label="رقمك ">
+                        <input value={form.guardian_contact} onChange={(e) => update("guardian_contact", e.target.value)} className="input" placeholder="رقمك" />
+                    </Field>
+                    <Field label="رقم بابا او ماما ">
+                        <input value={form.address} onChange={(e) => update("address", e.target.value)} className="input" placeholder="" />
+                    </Field>
+                    <Field label="لو عايز تقولنا حاجه">
+                        <textarea value={form.notes} onChange={(e) => update("notes", e.target.value)} className="input min-h-[80px]" placeholder="" />
+                    </Field>
+
+                    <button type="submit" disabled={loading} className="w-full rounded-lg bg-forest py-2.5 text-sm font-medium text-cream hover:bg-forest-dark disabled:opacity-60">
+                        {loading ? "Submitting…" : "Submit application"}
+                    </button>
+                </form>
+            </div>
+            <style jsx global>{`
+        .input { width: 100%; border-radius: 0.5rem; border: 1px solid var(--line); background: white; padding: 0.5rem 0.75rem; font-size: 0.875rem; outline: none; }
+        .input:focus { box-shadow: 0 0 0 2px rgba(31, 77, 54, 0.25); }
+      `}</style>
+        </div>
+    );
+}
+
+function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+    return (
+        <div>
+            <label className="mb-1 block text-sm font-medium text-charcoal/80">{label} {required && <span className="text-ember">*</span>}</label>
+            {children}
+        </div>
+    );
+}

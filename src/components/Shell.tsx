@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Notification = {
@@ -26,7 +26,8 @@ export default function Shell({
   leaderName: string;
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+    const pathname = usePathname();
+    const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [bellOpen, setBellOpen] = useState(false);
 
@@ -43,6 +44,11 @@ export default function Shell({
     await fetch(`/api/notifications/${id}`, { method: "PUT" });
     setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: 1 } : n)));
   }
+    async function logout() {
+        await fetch("/api/auth/logout", { method: "POST" });
+        router.push("/login");
+        router.refresh();
+    }
 
   return (
     <div className="min-h-screen">
@@ -116,10 +122,16 @@ export default function Shell({
                 </div>
               )}
             </div>
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium text-charcoal">{leaderName}</p>
-            </div>
-          </div>
+                      <div className="hidden text-right sm:block">
+                          <p className="text-sm font-medium text-charcoal">{leaderName}</p>
+                      </div>
+                      <button
+                          onClick={logout}
+                          className="rounded-full border border-line px-3 py-1.5 text-sm text-charcoal/70 transition hover:bg-khaki/30"
+                      >
+                          Log out
+                      </button>
+                  </div>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-4 pb-2 sm:hidden">
           {NAV.map((item) => {

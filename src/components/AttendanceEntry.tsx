@@ -165,7 +165,7 @@ export default function AttendanceEntry({ sessionId }: { sessionId: number }) {
                     <p className="text-charcoal/60">No scouts match your search.</p>
                 </div>
             ) : (
-                <div className="overflow-hidden rounded-2xl border border-line bg-white/60">
+                    <div className="overflow-x-auto rounded-2xl border border-line bg-white/60">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-line bg-khaki/20 text-left text-charcoal/70">
