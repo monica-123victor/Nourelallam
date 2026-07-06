@@ -18,6 +18,18 @@ export default function ApplyPage() {
         e.preventDefault();
         setError("");
         if (!form.name.trim()) { setError("Full name is required."); return; }
+        if (form.guardian_contact && !/^01[0-2,5]{1}[0-9]{8}$/.test(form.guardian_contact)) {
+      setError("رقمك لازم يكون رقم مصري صحيح");
+      return;
+    }
+    if (form.address && !/^01[0-2,5]{1}[0-9]{8}$/.test(form.address)) {
+      setError("رقم بابا او ماما لازم يكون رقم مصري صحيح");
+      return;
+    }
+    if (form.guardian_contact === form.address) {
+      setError("رقمك ورقم بابا او ماما لازم يكونوا مختلفين");
+      return;
+    }
         setLoading(true);
         const res = await fetch("/api/apply", {
             method: "POST",
@@ -57,28 +69,67 @@ export default function ApplyPage() {
                 <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-line bg-white/60 p-6 shadow-sm">
                     {error && <div className="rounded-lg bg-ember/10 border border-ember/30 px-3 py-2 text-sm text-ember">{error}</div>}
 
-                    <Field label="اسمك" required>
+                    <Field label="اسمك ثلاثي " required>
                         <input required value={form.name} onChange={(e) => update("name", e.target.value)} className="input" placeholder="اسمك" />
                     </Field>
-                    <Field label="سنه كام ">
-                        <input
-                            type="text"
-                            value={form.dob}
-                            onChange={(e) => update("dob", e.target.value)}
-                            className="input"
-                            placeholder="اولي "
-                        />
+                    <Field label="سنه كام " required>
+                      <select
+                     value={form.dob}
+                      onChange={(e) => update("dob", e.target.value)}
+                     className="input"
+                      >
+                     <option value="">اختار</option>
+                     <option value="اولي">اولي</option>
+                     <option value="تانيه">تانيه</option>
+                     <option value="تالته">تالته</option>
+      
+                      </select>
+                 </Field>
+                    <Field label="اسم صاحبك " required>
+                        <textarea value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
                     </Field>
-                    <Field label="اسم صاحبك ">
-                        <input value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
-                    </Field>
-                    <Field label="رقمك ">
-                        <input value={form.guardian_contact} onChange={(e) => update("guardian_contact", e.target.value)} className="input" placeholder="رقمك" />
-                    </Field>
-                    <Field label="رقم بابا او ماما ">
-                        <input value={form.address} onChange={(e) => update("address", e.target.value)} className="input" placeholder="" />
-                    </Field>
-                    <Field label="لو عايز تقولنا حاجه">
+                   <Field label="رقمك " required>
+                     <input
+                     value={form.guardian_contact}
+                      onChange={(e) => {
+                         const val = e.target.value.replace(/[^0-9]/g, "");
+                          update("guardian_contact", val);
+                          }}
+                     onBlur={(e) => {
+                        if (e.target.value && !/^01[0-2,5]{1}[0-9]{8}$/.test(e.target.value)) {
+                         setError("رقمك لازم يكون رقم مصري صحيح مثل 01012345678");
+                         } else {
+                          setError("");
+                          }
+                           }}
+                     className="input"
+                       placeholder="01012345678"
+                       maxLength={11}
+                      inputMode="numeric"
+                       />
+                 </Field>
+
+                <Field label="رقم بابا او ماما " required>
+                 <input
+                 value={form.address}
+                onChange={(e) => {
+                const val = e.target.value.replace(/[^0-9]/g, "");
+              update("address", val);
+            }}
+    onBlur={(e) => {
+      if (e.target.value && !/^01[0-2,5]{1}[0-9]{8}$/.test(e.target.value)) {
+        setError("رقم بابا او ماما لازم يكون رقم مصري صحيح مثل 01012345678");
+      } else {
+        setError("");
+      }
+    }}
+    className="input"
+    placeholder="01012345678"
+    maxLength={11}
+    inputMode="numeric"
+  />
+</Field>
+                    <Field label="لو عايز تقولنا حاجه" >
                         <textarea value={form.notes} onChange={(e) => update("notes", e.target.value)} className="input min-h-[80px]" placeholder="" />
                     </Field>
 
