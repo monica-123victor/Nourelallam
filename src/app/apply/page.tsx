@@ -8,7 +8,7 @@ export default function ApplyPage() {
     const [error, setError] = useState("");
     const [form, setForm] = useState({
         name: "", dob: "", guardian_name: "", guardian_contact: "", address: "", notes: "",
-    });
+    scout_type: "جديد", });
 
     function update(field: string, value: string) {
         setForm((f) => ({ ...f, [field]: value }));
@@ -66,7 +66,34 @@ export default function ApplyPage() {
                     
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-line bg-white/60 p-6 shadow-sm">
+                <form
+          onSubmit={handleSubmit}
+          className="space-y-4 rounded-2xl border border-line bg-white/60 p-6 shadow-sm"
+        >
+          <div className="flex rounded-xl border border-line overflow-hidden">
+            <button
+              type="button"
+              onClick={() => update("scout_type", "جديد")}
+              className={`flex-1 py-2.5 text-sm font-medium transition ${
+                form.scout_type === "جديد"
+                  ? "bg-forest text-cream"
+                  : "bg-white text-charcoal/60 hover:bg-khaki/20"
+              }`}
+            >
+              جديد
+            </button>
+            <button
+              type="button"
+              onClick={() => update("scout_type", "قديم")}
+              className={`flex-1 py-2.5 text-sm font-medium transition ${
+                form.scout_type === "قديم"
+                  ? "bg-forest text-cream"
+                  : "bg-white text-charcoal/60 hover:bg-khaki/20"
+              }`}
+            >
+              قديم
+            </button>
+          </div>
                     {error && <div className="rounded-lg bg-ember/10 border border-ember/30 px-3 py-2 text-sm text-ember">{error}</div>}
 
                     <Field label="اسمك ثلاثي " required>

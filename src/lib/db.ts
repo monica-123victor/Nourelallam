@@ -33,6 +33,7 @@ export async function ensureSchema() {
       notes TEXT,
       group_name TEXT,
       points_total INTEGER DEFAULT 0,
+      scout_type TEXT DEFAULT 'جديد',
       created_at TIMESTAMP DEFAULT NOW()
     );
 
@@ -47,7 +48,7 @@ export async function ensureSchema() {
       id SERIAL PRIMARY KEY,
       scout_id INTEGER NOT NULL REFERENCES scouts(id) ON DELETE CASCADE,
       session_id INTEGER NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
-      status TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'absent'  ,
       early INTEGER DEFAULT 0,
       copybook INTEGER DEFAULT 0,
       uniform INTEGER DEFAULT 0,
