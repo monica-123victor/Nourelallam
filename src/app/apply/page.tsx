@@ -8,7 +8,7 @@ export default function ApplyPage() {
     const [error, setError] = useState("");
     const [form, setForm] = useState({
         name: "", dob: "", guardian_name: "", guardian_contact: "", address: "", notes: "",
-    scout_type: "جديد", });
+    scout_type: "لسه اول سنه ليا", });
 
     function update(field: string, value: string) {
         setForm((f) => ({ ...f, [field]: value }));
@@ -72,15 +72,15 @@ export default function ApplyPage() {
         >
           <div className="flex rounded-xl border border-line overflow-hidden">
             <button
-              type="button"
-              onClick={() => update("scout_type", "جديد")}
-              className={`flex-1 py-2.5 text-sm font-medium transition ${
-                form.scout_type === "جديد"
-                  ? "bg-forest text-cream"
-                  : "bg-white text-charcoal/60 hover:bg-khaki/20"
-              }`}
-            >
-              جديد
+  type="button"
+  onClick={() => update("scout_type", "لسه اول سنه ليا")}
+  className={`flex-1 py-2.5 text-sm font-medium transition ${
+    form.scout_type === "لسه اول سنه ليا"
+      ? "bg-forest text-cream"
+      : "bg-white text-charcoal/60 hover:bg-khaki/20"
+  }`}
+>
+  لسه اول سنه ليا
             </button>
             <button
               type="button"
@@ -112,7 +112,7 @@ export default function ApplyPage() {
       
                       </select>
                  </Field>
-                    <Field label="اسم صاحبك " required>
+                    <Field label="اسم  2 من  صحابك " required>
                         <textarea value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
                     </Field>
                    <Field label="رقمك " required>
