@@ -7,7 +7,7 @@ export default function ApplyPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [form, setForm] = useState({
-        name: "", dob: "", guardian_name: "", guardian_contact: "", address: "", notes: "",
+        name: "", dob: "",birth_date: "", guardian_name: "", guardian_contact: "", address: "", notes: "",
     scout_type: "لسه اول سنه ليا", });
 
     function update(field: string, value: string) {
@@ -112,6 +112,14 @@ export default function ApplyPage() {
       
                       </select>
                  </Field>
+                 <Field label="تاريخ الميلاد">
+  <input
+    type="date"
+    value={form.birth_date}
+    onChange={(e) => update("birth_date", e.target.value)}
+    className="input"
+  />
+</Field>
                     <Field label="اسم  2 من  صحابك " required>
                         <textarea value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
                     </Field>
