@@ -63,7 +63,7 @@ export default function NewScoutForm() {
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-       <Field label="سنه كام " required>
+       <Field label="سنه كام " >
   <select
     value={form.dob}
     onChange={(e) => update("dob", e.target.value)}
@@ -75,7 +75,7 @@ export default function NewScoutForm() {
     <option value="تالته">تالته</option>
   </select>
 </Field>
-<Field label="رقمك " required>
+<Field label="رقمك " >
                      <input
                      value={form.guardian_contact}
                       onChange={(e) => {
