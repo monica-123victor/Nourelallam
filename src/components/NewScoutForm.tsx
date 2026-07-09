@@ -63,9 +63,18 @@ export default function NewScoutForm() {
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Date of birth">
-          <input type="date" value={form.dob} onChange={(e) => update("dob", e.target.value)} className="input" />
-        </Field>
+       <Field label="سنه كام " required>
+  <select
+    value={form.dob}
+    onChange={(e) => update("dob", e.target.value)}
+    className="input"
+  >
+    <option value="">اختار</option>
+    <option value="اولي">اولي</option>
+    <option value="تانيه">تانيه</option>
+    <option value="تالته">تالته</option>
+  </select>
+</Field>
         <Field label="Join date">
           <input
             type="date"
