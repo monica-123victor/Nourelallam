@@ -120,7 +120,7 @@ export default function ApplyPage() {
     className="input"
   />
 </Field>
-                    <Field label="اسم  2 من  صحابك " required>
+                    <Field label="اسم  2 من  صحابك " >
                         <textarea value={form.guardian_name} onChange={(e) => update("guardian_name", e.target.value)} className="input" placeholder="مين صاحبك " />
                     </Field>
                    <Field label="رقمك " required>
@@ -144,7 +144,7 @@ export default function ApplyPage() {
                        />
                  </Field>
 
-                <Field label="رقم بابا او ماما " required>
+                <Field label="رقم بابا او ماما " >
                  <input
                  value={form.address}
                 onChange={(e) => {

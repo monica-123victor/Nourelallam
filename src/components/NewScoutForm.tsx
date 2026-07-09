@@ -75,6 +75,26 @@ export default function NewScoutForm() {
     <option value="تالته">تالته</option>
   </select>
 </Field>
+<Field label="رقمك " required>
+                     <input
+                     value={form.guardian_contact}
+                      onChange={(e) => {
+                         const val = e.target.value.replace(/[^0-9]/g, "");
+                          update("guardian_contact", val);
+                          }}
+                     onBlur={(e) => {
+                        if (e.target.value && !/^01[0-2,5]{1}[0-9]{8}$/.test(e.target.value)) {
+                         setError("رقمك لازم يكون رقم مصري صحيح مثل 01012345678");
+                         } else {
+                          setError("");
+                          }
+                           }}
+                     className="input"
+                       placeholder="01012345678"
+                       maxLength={11}
+                      inputMode="numeric"
+                       />
+                 </Field>
         <Field label="Join date">
           <input
             type="date"
